@@ -12,7 +12,7 @@ arcpy.env.workspace = "C:\\Users\\ebrandes\\Documents\\DNDC\\switchgrass_integra
 
 # import data:
 
-# subfieldIA_single (already in the geodatabase)
+# SubfieldIA_single (already in the geodatabase)
 
 # watershed feature class
 in_feature = "C:\\Users\\ebrandes\\Documents\\shapefiles\\wbdhu12_a_07100004.shp"
@@ -32,14 +32,32 @@ spatialRef = desc.SpatialReference
 print("Just checking ... Reference System is " + str(spatialRef.Name) + ".")
 
 # profit data (table)
-in_rows =
+in_rows ="60_profit_2012_2014_IA151.txt"
 out_path = "C:\\Users\\ebrandes\\Documents\\DNDC\\switchgrass_integration.gdb"
-out_name = "subfield_profit_2012_2014"
-TableToTable_conversion (in_rows, out_path, out_name)
+out_name = "subfield_profit_2012_2014_IA151"
+arcpy.TableToTable_conversion(in_rows, out_path, out_name)
 
 # clip subfieldIA_single to HUC 12 071000040103 watershed (select in HUC_07100004 layer first)
+in_features = "HUC_07100004_Projected"
+out_layer = "HUC_071000040103"
+where_clause = '"HUC12" = ' + "'071000040103'"
+arcpy.MakeFeatureLayer_management(in_features, out_layer, where_clause)
 
-# join profit data to subfieldIA_single
+
+in_features = "SubfieldIA_Single"
+clip_features = out_layer
+out_feature_class = "SubfieldHUC071000040103"
+arcpy.Clip_analysis(in_features, clip_features, out_feature_class)
+
+# join profit data to SubfieldHUC071000040103
+in_feature_class = out_feature_class
+in_field = "cluid_mukey" 
+join_table = "subfield_profit_2012_2014_IA151"
+join_field = "cluid_mukey"
+field_list = ["profit12", "profit14"]  # is "clumuha" needed?
+
+arcpy.JoinField_management(in_feature_class, in_field, join_table, join_field, field_list)
+
 
 
 
