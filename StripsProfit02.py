@@ -3,7 +3,7 @@ import csv # for export into csv file
 import sys # for export into csv file
 import arcpy
 import re # regular expression, to extract the cutoff values out of the scenario names
-from arcpy.sa import *  #spatial analyst?
+from arcpy.sa import *  #spatial analyst extension - needed for reclassify?
 
 # set the environment so that output data are being overwritten
 arcpy.env.overwriteOutput=True
@@ -15,12 +15,16 @@ arcpy.env.workspace = "C:\\Users\\ebrandes\\Documents\\DNDC\\switchgrass_integra
 # arcpy.env.snapRaster = raster
 
 
-# rasterize the subfield layer, keeping profit data for 2012 and 2014
+# rasterize the subfield layer, keeping profit data for 2014
 in_features = "SubfieldHUC071000040103"
 value_field = "profit14"
 out_rasterdataset = "profit14_raster"
 arcpy.PolygonToRaster_conversion(in_features, value_field, out_rasterdataset,\
                                  "MAXIMUM_COMBINED_AREA", "", 30)
+
+# attribute tables can only be built for rasters with integer values. Because the transformation from
+# float to integer would simply truncate the decimal digits, it is better to round the profit in the
+# SQL db to the dollar and then use that dataset to join to the feature class.
 
 # Build an attribute table
 in_raster = out_rasterdataset
