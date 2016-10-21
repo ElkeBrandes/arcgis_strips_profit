@@ -48,7 +48,9 @@ in_features = "SubfieldIA_Single"
 clip_features = out_layer
 out_feature_class = "SubfieldHUC071000040103"
 arcpy.Clip_analysis(in_features, clip_features, out_feature_class)
+print("Clipped subfield feature class to watershed.")
 
+print("Joining data...")
 # join profit data to SubfieldHUC071000040103
 in_feature_class = out_feature_class
 in_field = "cluid_mukey" 
@@ -56,7 +58,7 @@ join_table = "subfield_profit_surface_2012_2014"
 join_field = "cluid_mukey"
 field_list = ["profit_cg_2012", "profit_sb_2012", "profit_cg_2014", "profit_sb_2014"]
 arcpy.JoinField_management(in_feature_class, in_field, join_table, join_field, field_list)
-
+print("Done joining.")
 
 
 
