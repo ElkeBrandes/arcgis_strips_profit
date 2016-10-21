@@ -14,13 +14,14 @@ arcpy.env.workspace = "C:\\Users\\ebrandes\\Documents\\DNDC\\switchgrass_integra
 # raster = # the raster that the output rasters should be snapped to (existing raster)
 # arcpy.env.snapRaster = raster
 
-
+print("Rasterizing feature class, value field = " + sys.argv[1])
 # rasterize the subfield layer, keeping profit data for 2014
 in_features = "SubfieldHUC071000040103"
-value_field = "profit14"
-out_rasterdataset = "profit14_raster"
+value_field = sys.argv[1]
+out_rasterdataset = sys.argv[1] + "_raster"
 arcpy.PolygonToRaster_conversion(in_features, value_field, out_rasterdataset,\
-                                 "MAXIMUM_COMBINED_AREA", "", 30)
+                                 "MAXIMUM_COMBINED_AREA", "", 10)
+print("Done rasterizing.")
 
 # attribute tables can only be built for rasters with integer values. Because the transformation from
 # float to integer would simply truncate the decimal digits, it is better to round the profit in the
@@ -29,11 +30,13 @@ arcpy.PolygonToRaster_conversion(in_features, value_field, out_rasterdataset,\
 # Build an attribute table
 in_raster = out_rasterdataset
 arcpy.BuildRasterAttributeTable_management(in_raster, "OVERWRITE")
-
+print("Attribute table created.")
 
 # reclassify to differentiate only between pixels of a profit category and all others
-
+print("Reclassifying...")
 in_raster = out_rasterdataset
-reclass_field = value_field
-remap = RemapRange([[-1000,-250,"<-250"],[-250,-100,"-250--100"]])
-arcpy.Reclassify(in_raster, reclass_field, remap)
+reclass_field = "Value"
+remap = RemapRange([[-1000,-250,1],[-250,10000,2]])
+out_reclassify =  arcby.sa.Reclassify(in_raster, reclass_field, remap)
+out_reclassify.save("C:\\Users\\ebrandes\\Documents\\DNDC\\switchgrass_integration.gdb\\" + in_raster + "_reclass")
+print("All done!")
