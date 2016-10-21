@@ -10,6 +10,10 @@ This script includes the following processing steps as a test on the HUC 12 wate
 - clip to watershed boundary
 - join profit data to watershed layer
 
+StripsProfit01IA.py:
+
+This script includes the import of the profit table into the geodatabase and the join to the whole state feature class.
+It should be run overnight.
 
 StripsProfit02.py:
 
@@ -18,3 +22,5 @@ This script includes the following processing steps as a test on the HUC 12 wate
 - rasterize the profit layer from script 1
 - build an attribute table 
 - reclassify
+
+
