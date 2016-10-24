@@ -33,10 +33,10 @@ arcpy.BuildRasterAttributeTable_management(in_raster, "OVERWRITE")
 print("Attribute table created.")
 
 # reclassify to differentiate only between pixels of a profit category and all others
-print("Reclassifying...")
-in_raster = out_rasterdataset
-reclass_field = "Value"
-remap = RemapRange([[-1000,-250,1],[-250,10000,2]])
-out_reclassify =  arcby.sa.Reclassify(in_raster, reclass_field, remap)
-out_reclassify.save("C:\\Users\\ebrandes\\Documents\\DNDC\\switchgrass_integration.gdb\\" + in_raster + "_reclass")
-print("All done!")
+#print("Reclassifying...")
+#in_raster = out_rasterdataset
+#reclass_field = "Value"
+#remap = RemapRange([[-1000,-250,1],[-250,10000,2]])
+#out_reclassify =  arcby.sa.Reclassify(in_raster, reclass_field, remap)
+#out_reclassify.save("C:\\Users\\ebrandes\\Documents\\DNDC\\switchgrass_integration.gdb\\" + in_raster + "_reclass")
+#print("All done!")

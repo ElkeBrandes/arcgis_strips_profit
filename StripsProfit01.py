@@ -18,18 +18,18 @@ arcpy.env.workspace = "C:\\Users\\ebrandes\\Documents\\DNDC\\switchgrass_integra
 in_feature = "C:\\Users\\ebrandes\\Documents\\shapefiles\\wbdhu12_a_07100004.shp"
 out_path = "C:\\Users\\ebrandes\\Documents\\DNDC\\switchgrass_integration.gdb"
 out_name = "HUC_07100004"
-#arcpy.FeatureClassToFeatureClass_conversion(in_feature, out_path, out_name)
+arcpy.FeatureClassToFeatureClass_conversion(in_feature, out_path, out_name)
 
 # reproject "HUC_07100004"
 in_dataset = "HUC_07100004"
 out_dataset = str(in_dataset) + "_Projected"
 out_coor_system = arcpy.SpatialReference('NAD 1983 UTM Zone 15N')
-#arcpy.Project_management(in_dataset, out_dataset, out_coor_system)
+arcpy.Project_management(in_dataset, out_dataset, out_coor_system)
 
 # check the spatial reference of the new feature class
 desc = arcpy.Describe(out_dataset)
-#spatialRef = desc.SpatialReference
-#print("Just checking ... Reference System is " + str(spatialRef.Name) + ".")
+spatialRef = desc.SpatialReference
+print("Just checking ... Reference System is " + str(spatialRef.Name) + ".")
 
 # profit data (table)
 in_rows ="C:\\Users\\ebrandes\\Documents\\STRIPS_profit\\tables\\cgsb_profit_surface_2012_2014.txt"
